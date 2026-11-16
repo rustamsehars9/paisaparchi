@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaisaParchi — Invoice &amp; Bill Maker, 100% Offline</title>
+<meta name="description" content="PaisaParchi: make invoices, quotations and receipts in seconds, share PDF on WhatsApp, track payments, expenses and profit. English + اردو. Works fully offline, no sign-up.">
+<meta name="theme-color" content="#4F46E5">
+<meta property="og:title" content="PaisaParchi — Invoice &amp; Bill Maker">
+<meta property="og:description" content="Invoices, receipts, khata and reports — 100% offline, in English and Urdu.">
+<meta property="og:image" content="assets/logo-512.png">
+<link rel="icon" href="assets/logo-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F6FB; --card: #FFFFFF; --text: #0F172A; --muted: #64748B; --border: #E7EAF3;
+    --p1: #4F46E5; --p2: #7C3AED; --amber: #F59E0B; --green: #059669; --red: #DC2626; --soft: #EEF0FF;
+    --shadow: 0 18px 50px -20px rgba(79,70,229,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0B0D17; --card: #151827; --text: #E9EBF3; --muted: #9AA3B8; --border: #272C42; --soft: #1E2236;
+      --shadow: 0 18px 50px -20px rgba(0,0,0,.6); }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .ur { font-family: "Noto Nastaliq Urdu", serif; line-height: 2.1; }
+  .grad { background: linear-gradient(135deg, var(--p1), var(--p2)); }
+  .gtext { background: linear-gradient(135deg, var(--p1), var(--p2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 82%, transparent); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; gap: 12px; height: 66px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; }
+  .brand img { width: 36px; height: 36px; border-radius: 11px; }
+  nav .links { margin-left: auto; display: flex; gap: 22px; font-weight: 600; font-size: 14px; color: var(--muted); }
+  nav .links a:hover { color: var(--p1); }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 16px; font-weight: 700; transition: transform .15s ease, box-shadow .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { color: #fff; box-shadow: var(--shadow); }
+  .btn-ghost { border: 1px solid var(--border); background: var(--card); }
+  .btn-sm { padding: 9px 16px; border-radius: 12px; font-size: 14px; }
+
+  /* Hero */
+  .hero { padding: 70px 0 40px; position: relative; }
+  .hero::before { content: ""; position: absolute; inset: -200px -20% auto; height: 620px; background: radial-gradient(closest-side, rgba(124,58,237,.18), transparent), radial-gradient(closest-side at 20% 80%, rgba(245,158,11,.14), transparent); z-index: -1; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--muted); }
+  .pill b { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(36px, 5.4vw, 60px); line-height: 1.07; letter-spacing: -0.03em; margin: 18px 0 10px; font-weight: 800; }
+  .hero p.lead { font-size: 18px; color: var(--muted); max-width: 540px; margin: 0 0 8px; }
+  .hero .ur { font-size: 22px; color: var(--amber); margin: 0 0 22px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .play { background: #0B0D17; color: #fff; }
+  .play small { display: block; font-size: 11px; font-weight: 500; opacity: .75; line-height: 1; }
+  .play span { line-height: 1.15; }
+  .stats { display: flex; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
+  .stats div b { display: block; font-size: 22px; }
+  .stats div span { font-size: 13px; color: var(--muted); }
+
+  /* Phone mockup */
+  .phone { width: 300px; max-width: 80vw; aspect-ratio: 9/19; margin: 0 auto; border-radius: 42px; background: #0B0D17; padding: 10px; box-shadow: 0 40px 80px -30px rgba(49,46,129,.6); position: relative; animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-12px); } }
+  .screen { height: 100%; border-radius: 34px; background: #F5F6FB; overflow: hidden; padding: 18px 14px; color: #0F172A; font-size: 11px; }
+  .screen .hi { color: #64748B; } .screen .biz { font-weight: 800; font-size: 15px; margin-bottom: 12px; }
+  .heroCard { border-radius: 20px; padding: 14px; color: #fff; position: relative; overflow: hidden; }
+  .heroCard::after { content: ""; position: absolute; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,.1); right: -40px; top: -50px; }
+  .heroCard .amt { font-size: 24px; font-weight: 800; margin: 4px 0; }
+  .heroCard .row { display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid rgba(255,255,255,.2); padding-top: 8px; opacity: .9; }
+  .qa { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin: 12px 0; text-align: center; font-weight: 600; font-size: 9px; }
+  .qa i { display: grid; place-items: center; height: 38px; border-radius: 13px; background: #fff; margin-bottom: 4px; box-shadow: 0 4px 12px -6px rgba(79,70,229,.4); }
+  .doc { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 14px; padding: 9px; margin-bottom: 7px; }
+  .doc .ic { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: #EEF0FF; }
+  .doc .t { flex: 1; } .doc .t b { display: block; font-size: 11px; } .doc .t span { color: #64748B; font-size: 9px; }
+  .tag { font-size: 8px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+  .paid { color: #059669; background: #D1FAE5; } .due { color: #2563EB; background: #DBEAFE; } .late { color: #DC2626; background: #FEE2E2; }
+
+  /* Sections */
+  section { padding: 70px 0; }
+  .eyebrow { color: var(--p1); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.02em; line-height: 1.15; margin: 8px 0 12px; }
+  .sub { color: var(--muted); max-width: 620px; font-size: 17px; }
+  .center { text-align: center; } .center .sub { margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 24px; transition: transform .2s, box-shadow .2s; }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .card h3 { margin: 14px 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .icon { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; }
+  .icon svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 40px; counter-reset: s; }
+  .step { position: relative; padding-top: 58px; }
+  .step::before { counter-increment: s; content: counter(s); position: absolute; top: 18px; left: 24px; width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-weight: 800; background: linear-gradient(135deg, var(--p1), var(--p2)); }
+
+  .band { border-radius: 32px; padding: 48px; color: #fff; display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: center; position: relative; overflow: hidden; }
+  .band::after { content: ""; position: absolute; width: 360px; height: 360px; border-radius: 50%; background: rgba(255,255,255,.08); right: -100px; top: -140px; }
+  .band h2 { color: #fff; } .band p { opacity: .88; }
+  .checks { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+  .checks li { display: flex; gap: 10px; align-items: flex-start; }
+  .checks li::before { content: "✓"; flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--amber); color: #fff; font-size: 12px; font-weight: 800; margin-top: 2px; }
+  .shield { justify-self: center; width: 180px; height: 180px; border-radius: 48px; background: rgba(255,255,255,.14); display: grid; place-items: center; }
+  .shield svg { width: 90px; height: 90px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+  .langs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 36px; }
+  .langs .card { text-align: center; padding: 32px; }
+  .langs .big { font-size: 40px; font-weight: 800; }
+  .langs .ur.big { font-size: 38px; font-weight: 700; }
+
+  details { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+  summary::after { content: "+"; color: var(--p1); font-size: 22px; line-height: 1; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--muted); margin: 10px 0 0; }
+  .faq { max-width: 760px; margin: 36px auto 0; }
+
+  .final { text-align: center; }
+  .final img { width: 96px; border-radius: 28px; box-shadow: var(--shadow); }
+  footer { border-top: 1px solid var(--border); padding: 30px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  footer .fl { display: flex; gap: 18px; flex-wrap: wrap; }
+  footer a:hover { color: var(--p1); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } .phone { animation: none; } }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .band { grid-template-columns: 1fr; }
+    .grid, .steps { grid-template-columns: 1fr 1fr; }
+    nav .links { display: none; }
+    .band { padding: 32px 24px; }
+    .shield { display: none; }
+  }
+  @media (max-width: 600px) {
+    .grid, .steps, .langs { grid-template-columns: 1fr; }
+    section { padding: 50px 0; }
+    .hero { padding-top: 40px; }
+    nav .btn-sm span.long { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/logo-512.png" alt="PaisaParchi logo">PaisaParchi</a>
+    <div class="links"><a href="#features">Features</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#faq">FAQ</a></div>
+    <a class="btn btn-primary btn-sm grad" data-play href="#download"><span class="long">Get the app</span><span>↓</span></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="pill"><b></b>100% offline · No sign-up · No ads</span>
+      <h1>Invoices in seconds. <span class="gtext">Every rupee tracked.</span></h1>
+      <p class="lead">Make professional invoices, quotations and receipts, send the PDF on WhatsApp, and see who owes you — all on your phone, even without internet.</p>
+      <p class="ur" dir="rtl" lang="ur">پرچی بناؤ، پیسہ وصول کرو</p>
+      <div class="cta">
+        <a class="btn play" data-play href="#download">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34D399" d="M3.6 2.2 13.4 12l-9.8 9.8c-.4-.2-.6-.6-.6-1.1V3.3c0-.5.2-.9.6-1.1z"/><path fill="#FBBF24" d="m16.8 8.6-3.4 3.4 3.4 3.4 3.9-2.2c.8-.5.8-1.7 0-2.2z"/><path fill="#F87171" d="M13.4 12 3.6 21.8c.3.2.8.2 1.2 0l12-6.4z"/><path fill="#60A5FA" d="M13.4 12 16.8 8.6l-12-6.4c-.4-.2-.9-.2-1.2 0z"/></svg>
+          <span><small>GET IT ON</small>Google Play</span>
+        </a>
+        <a class="btn btn-ghost" href="#features">See features</a>
+      </div>
+      <div class="stats">
+        <div><b>~2 MB</b><span>tiny download</span></div>
+        <div><b dir="ltr">EN + <bdi lang="ur">اردو</bdi></b><span>two languages</span></div>
+        <div><b>0</b><span>data collected</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="phone" aria-label="App preview">
+        <div class="screen">
+          <div class="hi">Good afternoon</div>
+          <div class="biz">Ali Traders</div>
+          <div class="heroCard grad">
+            <div style="opacity:.85">To collect</div>
+            <div class="amt">Rs 1,24,500</div>
+            <span class="tag" style="background:rgba(255,255,255,.18);color:#fff">● 6 unpaid invoices</span>
+            <div class="row"><span>This month<br><b>Rs 3,82,000</b></span><span>Received<br><b>Rs 2,57,500</b></span></div>
+          </div>
+          <div class="qa">
+            <div><i style="color:#4F46E5">🧾</i>Invoice</div><div><i style="color:#2563EB">📋</i>Quote</div><div><i>👛</i>Expense</div><div><i>📊</i>Reports</div>
+          </div>
+          <div class="doc"><div class="ic">🧾</div><div class="t"><b>Hamza Electronics</b><span>INV-0042 · 16 Nov</span></div><div style="text-align:right"><b>Rs 45,000</b><br><span class="tag paid">Paid</span></div></div>
+          <div class="doc"><div class="ic">🧾</div><div class="t"><b>Bismillah Store</b><span>INV-0041 · 14 Nov</span></div><div style="text-align:right"><b>Rs 18,500</b><br><span class="tag due">Unpaid</span></div></div>
+          <div class="doc"><div class="ic">🧾</div><div class="t"><b>Rehman &amp; Sons</b><span>INV-0038 · 2 Nov</span></div><div style="text-align:right"><b>Rs 62,000</b><br><span class="tag late">Overdue</span></div></div>
+          <div class="doc"><div class="ic">📋</div><div class="t"><b>City Builders</b><span>QT-0012 · 1 Nov</span></div><div style="text-align:right"><b>Rs 2,10,000</b><br><span class="tag paid">Accepted</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Features</div>
+    <h2>Everything a small business needs</h2>
+    <p class="sub">Built for shops, traders, freelancers and service businesses across Pakistan. Simple enough for anyone, powerful enough for daily use.</p>
+  </div>
+  <div class="wrap grid" id="featureGrid"></div>
+</section>
+
+<section id="how" style="padding-top:20px">
+  <div class="wrap center reveal">
+    <div class="eyebrow">How it works</div>
+    <h2>From order to payment in 3 steps</h2>
+  </div>
+  <div class="wrap steps">
+    <div class="card step reveal"><h3>Create</h3><p>Pick a client, add items from your catalog, set discount and GST. Totals calculate themselves.</p></div>
+    <div class="card step reveal"><h3>Share</h3><p>Choose a design and send a crisp PDF on WhatsApp, email or print — with your logo, signature and bank details.</p></div>
+    <div class="card step reveal"><h3>Get paid</h3><p>Record full or partial payments, send a polite reminder, and give a receipt. Your khata stays up to date.</p></div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <div class="band grad reveal">
+      <div>
+        <div class="eyebrow" style="color:#FCD34D">Private by design</div>
+        <h2>Your business data never leaves your phone</h2>
+        <p>PaisaParchi has no internet permission at all. No accounts, no cloud, no ads, no tracking. Lock it with a PIN or fingerprint and keep your own backup file.</p>
+        <ul class="checks">
+          <li>Works fully offline — in the shop, in the market, anywhere</li>
+          <li>PIN &amp; fingerprint app lock</li>
+          <li>One-tap backup file you can save to Drive or WhatsApp</li>
+          <li>Zero data collected — see our <a href="privacy-policy.html" style="text-decoration:underline">privacy policy</a></li>
+        </ul>
+      </div>
+      <div class="shield"><svg viewBox="0 0 24 24"><path d="M12 3.5l7 2.5v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:10px">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Languages</div>
+    <h2>Speaks your language</h2>
+    <p class="sub">Switch between English and Urdu anytime. Urdu uses beautiful Nastaliq lettering, right-to-left.</p>
+  </div>
+  <div class="wrap langs">
+    <div class="card reveal"><div class="big gtext">Aa</div><h3>English</h3><p>Invoices, reports and menus in English.</p></div>
+    <div class="card reveal" dir="rtl" lang="ur"><div class="big ur gtext">اُردو</div><h3 class="ur">اردو</h3><p class="ur">تمام مینو اور اسکرینیں اردو میں</p></div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:20px">
+  <div class="wrap center reveal">
+    <div class="eyebrow">FAQ</div>
+    <h2>Questions, answered</h2>
+  </div>
+  <div class="wrap faq">
+    <details class="reveal"><summary>Is PaisaParchi free?</summary><p>Yes, you can download it free from Google Play and start making invoices right away.</p></details>
+    <details class="reveal"><summary>Does it need internet?</summary><p>No. Everything — invoices, PDFs, reports and backups — works fully offline. The app does not even have internet permission.</p></details>
+    <details class="reveal"><summary>How do I send an invoice on WhatsApp?</summary><p>Open the invoice and tap the green WhatsApp button. The PDF is attached automatically — just pick the chat.</p></details>
+    <details class="reveal"><summary>Can I add GST, discount and delivery charges?</summary><p>Yes. Every invoice supports discount (percentage or amount), tax such as GST and delivery charges. Set your default tax once in settings.</p></details>
+    <details class="reveal"><summary>What happens if I change my phone?</summary><p>Create a backup file from Backup &amp; restore, keep it on Google Drive or WhatsApp, then restore it on your new phone after installing PaisaParchi.</p></details>
+    <details class="reveal"><summary>Can I turn a quotation into an invoice?</summary><p>Yes, with one tap. All items are copied and the two documents stay linked.</p></details>
+  </div>
+</section>
+
+<section id="download" class="final">
+  <div class="wrap reveal">
+    <img src="assets/logo-512.png" alt="PaisaParchi app icon">
+    <h2>Start making invoices today</h2>
+    <p class="sub" style="margin:0 auto 24px">Free, tiny, offline and private. Your next invoice is a minute away.</p>
+    <a class="btn play" data-play href="#download">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34D399" d="M3.6 2.2 13.4 12l-9.8 9.8c-.4-.2-.6-.6-.6-1.1V3.3c0-.5.2-.9.6-1.1z"/><path fill="#FBBF24" d="m16.8 8.6-3.4 3.4 3.4 3.4 3.9-2.2c.8-.5.8-1.7 0-2.2z"/><path fill="#F87171" d="M13.4 12 3.6 21.8c.3.2.8.2 1.2 0l12-6.4z"/><path fill="#60A5FA" d="M13.4 12 16.8 8.6l-12-6.4c-.4-.2-.9-.2-1.2 0z"/></svg>
+      <span><small>GET IT ON</small>Google Play</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr"></span> PaisaParchi · Made with care in Pakistan</div>
+    <div class="fl"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="#faq">Help</a></div>
+  </div>
+</footer>
+
+<script>
+  // Play Store link — works once the app is published on Google Play.
+  const PLAY_URL = "https://play.google.com/store/apps/details?id=com.ikram.paisaparchi";
+  document.querySelectorAll("[data-play]").forEach(a => { a.href = PLAY_URL; a.target = "_blank"; a.rel = "noopener"; });
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  const i = (d) => `<svg viewBox="0 0 24 24">${d.map(p => `<path d="${p}"/>`).join("")}</svg>`;
+  const features = [
+    ["#4F46E5", ["M6 3.5h12v17l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3-2 1.3z","M9 8h6","M9 11.5h6","M9 15h3.5"], "Invoices & quotations", "Professional documents with auto numbering, due dates, discount, GST and delivery charges."],
+    ["#16A34A", ["M4 19.5l1.3-3.9A8 8 0 1 1 8.3 18.7z","M8.5 11.5h.01","M12 11.5h.01","M15.5 11.5h.01"], "Share PDF on WhatsApp", "One tap to send a clean PDF to your customer's WhatsApp, email, or print it."],
+    ["#F59E0B", ["M5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13A1.5 1.5 0 0 1 5.5 4z","M4 9h16","M10 9v11"], "3 beautiful designs", "Classic, Modern and Minimal templates in six colours — with your logo and signature."],
+    ["#059669", ["M5 6.5h14A1.5 1.5 0 0 1 20.5 8v8a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 16V8A1.5 1.5 0 0 1 5 6.5z","M12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"], "Partial payments & receipts", "Record cash, bank, JazzCash or Easypaisa payments and share a receipt instantly."],
+    ["#EC4899", ["M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z","M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5","M16 4.5a3 3 0 0 1 0 6","M18 14.6c1.8.6 3 2.4 3 4.9"], "Client khata", "Every client's invoices, payments and balance in one place, with a shareable statement."],
+    ["#2563EB", ["M20 11a8 8 0 0 0-14.3-4.6L4 8.5","M4 4v4.5h4.5","M4 13a8 8 0 0 0 14.3 4.6l1.7-2.1","M20 20v-4.5h-4.5"], "Quotation → invoice", "Client said yes? Convert the quotation into an invoice with one tap."],
+    ["#DC2626", ["M18 8V6.5A1.5 1.5 0 0 0 16.5 5H6a2 2 0 0 0 0 4h12.5a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 4 17.5V7"], "Expenses with photos", "Log rent, salaries and stock purchases — attach a photo of the receipt."],
+    ["#7C3AED", ["M5.5 12.5h3v5h-3z","M10.5 7.5h3v10h-3z","M15.5 10h3v7.5h-3z","M4 20.5h16"], "Reports & profit", "Sales, payments, outstanding aging, profit & loss, tax, top clients and items — with charts."],
+    ["#0891B2", ["M12 3.5V15","M7.5 10.5 12 15l4.5-4.5","M5 20.5h14"], "Export PDF & CSV", "Download your records for Excel or your accountant. Urdu names are kept correctly."],
+    ["#D97706", ["M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z","M10 20.5a2.2 2.2 0 0 0 4 0"], "Due-date reminders", "A daily nudge for invoices that are due or overdue, plus a polite reminder message."],
+    ["#059669", ["M6.5 10.5h11A1.5 1.5 0 0 1 19 12v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19v-7a1.5 1.5 0 0 1 1.5-1.5z","M8 10.5v-3a4 4 0 0 1 8 0v3","M12 14.5v2"], "PIN & fingerprint lock", "Keep your earnings private with a 4-digit PIN or your phone's fingerprint."],
+    ["#4F46E5", ["M4.5 4.5h15A1 1 0 0 1 20.5 5.5v3a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z","M5.5 9.5V18a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.5","M10 13h4"], "Backup & restore", "Save one backup file and restore everything on a new phone — your data, your control."],
+  ];
+  document.getElementById("featureGrid").innerHTML = features.map(([c, d, t, p]) =>
+    `<div class="card reveal"><div class="icon" style="color:${c};background:${c}1f">${i(d)}</div><h3>${t}</h3><p>${p}</p></div>`).join("");
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll(".reveal").forEach((el, n) => { el.style.transitionDelay = (n % 3) * 70 + "ms"; io.observe(el); });
+</script>
+</body>
+</html>
